@@ -21,14 +21,10 @@ spec:
         "beta.kubernetes.io/os": linux
       containers:
       - name: app-server-front
-        image: canopi.azurecr.io/app-server:icici1
+        image: canopit.azurecr.io/app-server:icici2
         ports:
         - containerPort: 8080
-        resources:
-          requests:
-            cpu: 800m
-          limits:
-            cpu: 900m
+        args: ["tail","-f","-n","+1","tomcat-9.0.10/logs/catalina.out"]
         env:
         - name: REDIS
           value: "azure"
@@ -41,5 +37,6 @@ spec:
   type: LoadBalancer
   ports:
   - port: 80
+    targetPort: 8080
   selector:
     app: app-server-front
