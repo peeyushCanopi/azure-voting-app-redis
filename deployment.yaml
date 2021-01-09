@@ -28,6 +28,8 @@ spec:
         env:
         - name: MODE
           value: "production"
+      imagePullSecrets:
+      - name: registry
 ---
 apiVersion: v1
 kind: Service
