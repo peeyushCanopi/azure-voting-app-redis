@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app-server-front
+  name: app-server
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: app-server-front
+      app: app-server
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -15,28 +15,28 @@ spec:
   template:
     metadata:
       labels:
-        app: app-server-front
+        app: app-server
     spec:
       nodeSelector:
         "beta.kubernetes.io/os": linux
       containers:
       - name: app-server-front
-        image: canopit.azurecr.io/app-server:icici2
+        image: registry.canopi.in/app-server:v1
         ports:
         - containerPort: 8080
         args: ["tail","-f","-n","+1","tomcat-9.0.10/logs/catalina.out"]
         env:
-        - name: REDIS
-          value: "azure"
+        - name: MODE
+          value: "production"
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: app-server-front
+  name: app-server
 spec:
   type: LoadBalancer
   ports:
   - port: 80
     targetPort: 8080
   selector:
-    app: app-server-front
+    app: app-server
