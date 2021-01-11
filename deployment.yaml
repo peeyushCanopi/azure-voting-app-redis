@@ -20,7 +20,7 @@ spec:
       nodeSelector:
         "beta.kubernetes.io/os": linux
       containers:
-      - name: app-server-front
+      - name: app-server
         image: registry.canopi.in/app-server:v1
         ports:
         - containerPort: 8080
